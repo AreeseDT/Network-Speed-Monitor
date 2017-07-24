@@ -1,0 +1,31 @@
+﻿<Window x:Class="NetworkSpeedMonitor.NetworkSpeed"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
+        mc:Ignorable="d"
+        Title="Network Speed Monitor" Height="300" Width="500">
+    <Grid>
+        <Menu Name="Settings" DockPanel.Dock="Top">
+            <Menu.Effect>
+                <DropShadowEffect />
+            </Menu.Effect>
+            <MenuItem Header="_File">
+                <MenuItem x:Name="RunSpeedTest" Header="_Run Network Monitor" IsCheckable="True" Checked="RunSpeedTest_OnChecked" Unchecked="RunSpeedTest_OnUnchecked">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Start / Stop Network Monitoring</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Export Results" Click="ExportResults"/>
+                <Separator/>
+                <MenuItem Header="_Settings" Click="OpenSettings_OnClick">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Open Settings Window</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <chartingToolkit:Chart></chartingToolkit:Chart>
+    </Grid>
+</Window>
