@@ -9,35 +9,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NetworkSpeedMonitor.Models
 {
-    public class NetworkSpeedModel
+    public class NetworkSpeedModel : INotifyPropertyChanged
     {
         private static NetworkSpeedModel _instance;
-        public static NetworkSpeedModel Instance => _instance ?? (_instance = new NetworkSpeedModel());
+        public static NetworkSpeedModel Create(Database database)
+        {
+            return _instance ?? (_instance = new NetworkSpeedModel(database));
+        }
 
         private readonly Database _database;
         private static readonly Mutex Lock = new Mutex(true, "dbLock");
 
-        private NetworkSpeedModel()
+        private NetworkSpeedModel(Database database)
         {
-            _database = new Database();
+            _database = database;
+
+            SpeedTestResults = GetSpeedTestResults();
+
+            OnPropertyChanged(nameof(SpeedTestResults));
+
             Lock.ReleaseMutex();
         }
 
+        public IEnumerable<SpeedTestResult> SpeedTestResults { get; set; }
+
         protected CancellationTokenSource Cancellation { get; set; }
 
-        public async Task<IEnumerable<SpeedTestResult>> GetSpeedTestResults()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
         {
-            Lock.WaitOne();
-            var query = _database.SpeedTestResults.AsQueryable();
-            var count = await query.CountAsync();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-            var results = count <= 100
-                ? await query.ToListAsync()
-                : await query.Skip(count - 100).ToListAsync();
+        private IEnumerable<SpeedTestResult> GetSpeedTestResults()
+        {
+            var cutoff = DateTime.Now.Subtract(TimeSpan.FromHours(12));
 
-            Lock.ReleaseMutex();
-
-            return results;
+            return _database.MostRecentResults(cutoff, 100);
         }
 
         public void StartSpeedTest()
@@ -62,8 +71,12 @@ namespace NetworkSpeedMonitor.Models
                         {
                             Lock.WaitOne();
 
-                            _database.SpeedTestResults.AddAsync(results);
+                            _database.SpeedTestResults.Add(results);
                             _database.SaveChanges();
+
+                            SpeedTestResults = GetSpeedTestResults();
+
+                            OnPropertyChanged(nameof(SpeedTestResults));
                         }
                         finally
                         {

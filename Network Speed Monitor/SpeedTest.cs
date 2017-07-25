@@ -14,7 +14,7 @@ namespace NetworkSpeedMonitor
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "./speedtest-cli",
+                    FileName = "./Tools/speedtest-cli",
                     Arguments = "--server 6989 --simple",
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,

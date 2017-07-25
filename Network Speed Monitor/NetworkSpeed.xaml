@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="Network Speed Monitor" Height="300" Width="500">
+        Title="Network Speed Monitor" Height="300" Width="500"
+        DataContext="{Binding Model, RelativeSource={RelativeSource Mode=self}}">
     <Grid>
         <Menu Name="Settings" DockPanel.Dock="Top">
             <Menu.Effect>
@@ -26,6 +27,25 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <chartingToolkit:Chart></chartingToolkit:Chart>
+        <chartingToolkit:Chart >
+            <chartingToolkit:LineSeries 
+                Title="Download Speed"
+                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
+                IndependentValuePath="Timestamp"
+                DependentValuePath="Download"
+                IsSelectionEnabled="True"/>
+            <chartingToolkit:LineSeries 
+                Title="Upload Speed"
+                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
+                IndependentValuePath="Timestamp"
+                DependentValuePath="Upload"
+                IsSelectionEnabled="True"/>
+            <chartingToolkit:LineSeries 
+                Title="Ping"
+                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
+                IndependentValuePath="Timestamp"
+                DependentValuePath="Ping"
+                IsSelectionEnabled="True"/>
+        </chartingToolkit:Chart>
     </Grid>
 </Window>
