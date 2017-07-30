@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ctk="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="Network Speed Monitor" Height="400" Width="600"
+        Title="Network Speed Monitor" Height="400" Width="800"
         DataContext="{Binding Model, RelativeSource={RelativeSource Mode=self}}">
     <Grid>
         <Menu DockPanel.Dock="Top">
@@ -45,20 +45,34 @@
                 Title="Ping"
                 IndependentValuePath="Timestamp"
                 DependentValuePath="Ping"
-                ItemsSource="{Binding Path=Graph.Results, Mode=OneWay}"/>
+                ItemsSource="{Binding Path=Graph.Results, Mode=OneWay}">
+            </ctk:LineSeries>
             <ctk:Chart.Axes>
                 <ctk:DateTimeAxis 
                     Maximum="{Binding Path=Graph.XMax, Mode=OneWay}"
                     Minimum="{Binding Path=Graph.XMin, Mode=OneWay}"
-                    IntervalType="Hours"
+                    IntervalType="{Binding Path=Graph.XIntervalType, Mode=OneWay}"
+                    Interval="{Binding Path=Graph.XInterval, Mode=OneWay}"
                     Orientation="X"
-                    ShowGridLines="False"/>
+                    ShowGridLines="False">
+                    <ctk:DateTimeAxis.AxisLabelStyle>
+                        <Style>
+                            <Setter Property="ctk:DateTimeAxisLabel.StringFormat" Value="{}{0:h:mm tt}"/>
+                        </Style>
+                    </ctk:DateTimeAxis.AxisLabelStyle>
+                </ctk:DateTimeAxis>
                 <ctk:LinearAxis 
                     Maximum="{Binding Path=Graph.YMax, Mode=OneWay}"
-                    Minimum="0"
+                    Minimum="{Binding Path=Graph.YMin, Mode=OneWay}"
                     Interval="{Binding Path=Graph.YInterval, Mode=OneWay}"
                     Orientation="Y"
-                    ShowGridLines="True"/>
+                    ShowGridLines="True">
+                    <ctk:LinearAxis.AxisLabelStyle>
+                        <Style>
+                            <Setter Property="ctk:AxisLabel.StringFormat" Value="{}{0:N0}"/>
+                        </Style>
+                    </ctk:LinearAxis.AxisLabelStyle>
+                </ctk:LinearAxis>
             </ctk:Chart.Axes>
         </ctk:Chart>
     </Grid>

@@ -34,7 +34,7 @@ namespace Domain
             Lock.ReleaseMutex();
         }
 
-        public IEnumerable<SpeedTestResult> GetResults()
+        public List<SpeedTestResult> GetResults()
         {
             Lock.WaitOne();
 
@@ -42,10 +42,10 @@ namespace Domain
 
             Lock.ReleaseMutex();
 
-            return results;
+            return results.OrderBy(x => x.Timestamp).ToList();
         }
 
-        public async Task<IEnumerable<SpeedTestResult>> GetResultsAsync()
+        public async Task<List<SpeedTestResult>> GetResultsAsync()
         {
             Lock.WaitOne();
 
@@ -53,10 +53,10 @@ namespace Domain
 
             Lock.ReleaseMutex();
 
-            return results;
+            return results.OrderBy(x => x.Timestamp).ToList();
         }
 
-        public IEnumerable<SpeedTestResult> GetResultsRange(TimeSpan range)
+        public List<SpeedTestResult> GetResultsRange(TimeSpan range)
         {
             var start = DateTime.Now.Subtract(range);
 
@@ -70,10 +70,10 @@ namespace Domain
 
             Lock.ReleaseMutex();
 
-            return results;
+            return results.OrderBy(x => x.Timestamp).ToList();
         }
 
-        public async Task<IEnumerable<SpeedTestResult>> GetResultsRangeAsync(TimeSpan range)
+        public async Task<List<SpeedTestResult>> GetResultsRangeAsync(TimeSpan range)
         {
             var start = DateTime.Now.Subtract(range);
 
@@ -87,7 +87,7 @@ namespace Domain
 
             Lock.ReleaseMutex();
 
-            return results;
+            return results.OrderBy(x => x.Timestamp).ToList();
         }
     }
 }

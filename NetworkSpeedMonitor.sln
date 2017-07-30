@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkSpeedMonitor", "Netw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{17F1CFF1-15EF-4950-8D9C-8E33D5E9C4E2}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Network Speed Monitor", "Network Speed Monitor\Network Speed Monitor.vdproj", "{73176F56-B158-45A1-B733-73888DAC5F01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{17F1CFF1-15EF-4950-8D9C-8E33D5E9C4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17F1CFF1-15EF-4950-8D9C-8E33D5E9C4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17F1CFF1-15EF-4950-8D9C-8E33D5E9C4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73176F56-B158-45A1-B733-73888DAC5F01}.Debug|Any CPU.ActiveCfg = Debug
+		{73176F56-B158-45A1-B733-73888DAC5F01}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
