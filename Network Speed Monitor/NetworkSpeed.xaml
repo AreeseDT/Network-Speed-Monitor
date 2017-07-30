@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
+        xmlns:ctk="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d"
-        Title="Network Speed Monitor" Height="300" Width="500"
+        Title="Network Speed Monitor" Height="400" Width="600"
         DataContext="{Binding Model, RelativeSource={RelativeSource Mode=self}}">
     <Grid>
-        <Menu Name="Settings" DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top">
             <Menu.Effect>
                 <DropShadowEffect />
             </Menu.Effect>
@@ -27,25 +27,39 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <chartingToolkit:Chart >
-            <chartingToolkit:LineSeries 
+        <ctk:Chart>
+            <ctk:LineSeries
+                x:Name="DownloadSeries"
                 Title="Download Speed"
-                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
                 IndependentValuePath="Timestamp"
                 DependentValuePath="Download"
-                IsSelectionEnabled="True"/>
-            <chartingToolkit:LineSeries 
+                ItemsSource="{Binding Path=Graph.Results, Mode=OneWay}"/>
+            <ctk:LineSeries 
+                x:Name="UploadSeries"
                 Title="Upload Speed"
-                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
                 IndependentValuePath="Timestamp"
                 DependentValuePath="Upload"
-                IsSelectionEnabled="True"/>
-            <chartingToolkit:LineSeries 
+                ItemsSource="{Binding Path=Graph.Results, Mode=OneWay}"/>
+            <ctk:LineSeries 
+                x:Name="PingSeries"
                 Title="Ping"
-                ItemsSource="{Binding Path=SpeedTestResults, Mode=OneWay}"
                 IndependentValuePath="Timestamp"
                 DependentValuePath="Ping"
-                IsSelectionEnabled="True"/>
-        </chartingToolkit:Chart>
+                ItemsSource="{Binding Path=Graph.Results, Mode=OneWay}"/>
+            <ctk:Chart.Axes>
+                <ctk:DateTimeAxis 
+                    Maximum="{Binding Path=Graph.XMax, Mode=OneWay}"
+                    Minimum="{Binding Path=Graph.XMin, Mode=OneWay}"
+                    IntervalType="Hours"
+                    Orientation="X"
+                    ShowGridLines="False"/>
+                <ctk:LinearAxis 
+                    Maximum="{Binding Path=Graph.YMax, Mode=OneWay}"
+                    Minimum="0"
+                    Interval="{Binding Path=Graph.YInterval, Mode=OneWay}"
+                    Orientation="Y"
+                    ShowGridLines="True"/>
+            </ctk:Chart.Axes>
+        </ctk:Chart>
     </Grid>
 </Window>

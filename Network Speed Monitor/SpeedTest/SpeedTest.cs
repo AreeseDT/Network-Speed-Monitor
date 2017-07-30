@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Domain;
 
-namespace NetworkSpeedMonitor
+namespace NetworkSpeedMonitor.SpeedTest
 {
     public class SpeedTest
     {
@@ -23,14 +24,12 @@ namespace NetworkSpeedMonitor
             };
         }
 
-        public SpeedTestResult Run(CancellationToken cancellationToken)
+        public async Task<SpeedTestResult> Run()
         {
-            cancellationToken.Register(() => _process.Close());
-
             _process.Start();
             _process.WaitForExit();
 
-            return SpeedTestResult.Parse(_process.StandardOutput);
+            return await SpeedTestResult.Parse(_process.StandardOutput);
         }
     }
 }

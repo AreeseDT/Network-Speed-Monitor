@@ -137,6 +137,7 @@
     <Compile Include="Migrations\DatabaseModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpeedTestResult.cs" />
+    <Compile Include="SpeedTestResultsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

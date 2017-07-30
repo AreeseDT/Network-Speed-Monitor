@@ -6,32 +6,53 @@
         xmlns:local="clr-namespace:NetworkSpeedMonitor"
         DataContext="{Binding Model, RelativeSource={RelativeSource Mode=Self}}"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="300" Width="300">
-    <Grid Margin="15,15,15,15">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Speed Test Interval" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-        <Grid Grid.Row="0" Grid.Column="1">
+        Title="SettingsWindow" 
+        Height="300" Width="300">
+    <DockPanel>
+        
+        <Grid Margin="15,15,15,15" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox x:Name="SpeedTestInterval" 
-                     Text="{Binding Path=SpeedTestInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="0" 
-                     Grid.Column="0" 
-                     PreviewTextInput="SpeedTestInterval_OnPreviewTextInput"/>
-            <TextBlock Text="Minutes" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+
+            <TextBlock Text="Speed Test Interval" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="SpeedTestInterval" 
+                         Grid.Row="0" 
+                         Grid.Column="0" 
+                         PreviewTextInput="SpeedTestInterval_OnPreviewTextInput"
+                         TextChanged="SpeedTestIntervalChanged"
+                         Loaded="SpeedTestIntervalLoaded"/>
+                <TextBlock Text="Minutes" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+            </Grid>
+
+            <TextBlock Text="Graph Range" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+            <ComboBox Grid.Row="1" Grid.Column="1" SelectionChanged="UpdateGraphRange" Loaded="GraphRangeOptionsLoaded" />
         </Grid>
-    </Grid>
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button Content="Save" 
+                    Width="Auto" 
+                    HorizontalAlignment="Left"
+                    Margin="15,0,0,10"
+                    Click="Save"/>
+            <Button Content="Cancel" 
+                    Width="Auto" 
+                    HorizontalAlignment="Left"
+                    Margin="15,0,0,10"
+                    Click="Cancel"/>
+        </StackPanel>
+    </DockPanel>
 </Window>

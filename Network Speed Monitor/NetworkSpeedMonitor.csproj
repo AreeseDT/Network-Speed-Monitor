@@ -186,21 +186,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\NetworkSpeedGraphModel.cs" />
     <Compile Include="Models\NetworkSpeedModel.cs" />
     <Compile Include="NetworkSpeed.xaml.cs">
       <DependentUpon>NetworkSpeed.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SpeedTest.cs" />
+    <Compile Include="SpeedTest\SpeedTest.cs" />
     <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CsvLogger.cs" />
+    <Compile Include="SpeedTest\SpeedTestWorker.cs" />
     <Page Include="NetworkSpeed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

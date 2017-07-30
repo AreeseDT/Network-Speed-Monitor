@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Domain;
 using Microsoft.Win32;
-using NetworkSpeedMonitor.Annotations;
 using NetworkSpeedMonitor.Models;
 
 namespace NetworkSpeedMonitor
@@ -14,11 +12,13 @@ namespace NetworkSpeedMonitor
     /// </summary>
     public partial class NetworkSpeed : Window
     {
-        public NetworkSpeed([NotNull] Database database)
+        private readonly Settings _settings;
+        public NetworkSpeed(Database database)
         {
             if (database == null) throw new ArgumentNullException(nameof(database));
 
             Model = NetworkSpeedModel.Create(database);
+            _settings = new Settings();
 
             InitializeComponent();
         }
@@ -27,8 +27,22 @@ namespace NetworkSpeedMonitor
 
         private void OpenSettings_OnClick(object sender, RoutedEventArgs e)
         {
+            var testInterval = _settings.SpeedTestInterval;
+            var graphRange = _settings.GraphRange;
+
             var settingsWindow = new SettingsWindow();
-            settingsWindow.Show();
+            settingsWindow.ShowDialog();
+
+            if (!testInterval.Equals(_settings.SpeedTestInterval) && Model.IsSpeedTestRunning)
+            {
+                Model.StopSpeedTest();
+                Model.StartSpeedTest();
+            }
+
+            if (!graphRange.Equals(_settings.GraphRange))
+            {
+                Model.ReloadGraph();
+            }
         }
 
         private void RunSpeedTest_OnChecked(object sender, RoutedEventArgs e)
@@ -41,7 +55,7 @@ namespace NetworkSpeedMonitor
             Model.StopSpeedTest();
         }
 
-        private void ExportResults(object sender, RoutedEventArgs e)
+        private async void ExportResults(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog
             {
@@ -55,7 +69,7 @@ namespace NetworkSpeedMonitor
 
             if (saveFileDialog.ShowDialog().GetValueOrDefault())
             {
-                Task.Run(() => Model.ExportCsv(saveFileDialog.FileName));
+                await Model.ExportCsv(saveFileDialog.FileName);
             }
         }
     }

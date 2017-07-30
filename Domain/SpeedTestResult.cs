@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Domain
 {
@@ -20,16 +21,16 @@ namespace Domain
         [Key]
         public int SpeedTestResultId { get; protected set; }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
         public decimal Ping { get; protected set; }
         public decimal Download { get; protected set; }
         public decimal Upload { get; protected set; }
 
-        public static SpeedTestResult Parse(TextReader output)
+        public static async Task<SpeedTestResult> Parse(TextReader output)
         {
-            var ping = Parse(output.ReadLine());
-            var download = Parse(output.ReadLine());
-            var upload = Parse(output.ReadLine());
+            var ping = Parse(await output.ReadLineAsync());
+            var download = Parse(await output.ReadLineAsync());
+            var upload = Parse(await output.ReadLineAsync());
 
             return new SpeedTestResult(ping, download, upload);
         }

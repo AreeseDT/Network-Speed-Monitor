@@ -5,5 +5,8 @@
     <Setting Name="SpeedTestInterval" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">01:00:00</Value>
     </Setting>
+    <Setting Name="GraphRange" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">1.00:00:00</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
